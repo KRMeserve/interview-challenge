@@ -15,13 +15,41 @@ class ListCard extends Component {
     //   string += '- ' + arr[i];
     // }
     // return string;
-    return arr.map((string, index)=>{return <div class='item'>-  {arr[index]} </div>});
+    if (arr) {
+      return arr.map((string, index)=>{return <div class='item'>-  {arr[index]} </div>});
+    } else {
+      return <div class='item'>- Test Item</div>;
+    }
+
   }
   render() {
+    const {
+      theme,
+      ...restProps
+    } = this.props;
+
+    const themeObj = {};
+
+    switch(theme) {
+      case 'light':
+        themeObj.class = 'light';
+        break;
+      case 'dark':
+        themeObj.class = 'dark';
+        break;
+      default:
+        themeObj.class = 'default';
+    }
+
+
     return (
-      <Base>
-        <div className="header">{this.props.header}</div>
-        <div className="items">{this.mapArray(this.props.items)}</div>
+      <Base className={'card ' + themeObj.class}>
+        <div className={"header " + themeObj.class}>
+          <div className={"header text " + themeObj.class}>{this.props.header ? this.props.header : "Default Header"}</div>
+        </div>
+        <div className={"item-container " + themeObj.class}>
+            <div className={"items " + themeObj.class}>{this.mapArray(this.props.items)}</div>
+        </div>
       </Base>
     );
   }
@@ -34,6 +62,7 @@ ListCard.propTypes = {
 };
 
 ListCard.defaultProps = {
+
 };
 
 export default ListCard;
